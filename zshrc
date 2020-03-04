@@ -12,6 +12,11 @@ setopt IGNOREEOF
 #export DISPLAY=localhost:0.0
 XAUTHORITY=~/.Xauthority
 
+#Proxy
+if [ -f ~/.proxy-company ]; then
+   source ~/.proxy-company
+fi
+
 #############################
 # プロンプト設定
 #############################
