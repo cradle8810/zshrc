@@ -135,10 +135,21 @@ compinit -C
 if [ ! "$ALREADYPATHLOADED" ]; then
     export ALREADYPATHLOADED=1
 
+    # For Golang
+    if [ -d "${HOME}/go" ]; then
+       export GOPATH="${HOME}/go"
+    fi
+
     #Mac用
     if [ "${OS}" = 'Darwin' ]; then
 	export PATH=/opt/ImageMagick/bin:$PATH
     fi
+
+    #Golang go/bin
+    if [ -n "${GOPATH}" ]; then
+       export PATH=$GOPATH:$PATH
+    fi
+
     export PATH=/usr/local/bin:/usr/local/sbin:$PATH
     export MANPATH=/usr/local/man:/usr/share/man:$MANPATH
 fi
