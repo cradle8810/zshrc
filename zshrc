@@ -128,7 +128,7 @@ if [ "${OS}" = 'Darwin' ] && [ -d /usr/local/share/zsh-completions ]; then
     fpath=(/usr/local/share/zsh-completions $fpath)
 fi
 
-autoload -Uz compinit
+autoload -Uz compinit && compinit -i
 compinit -C
 
 #====パスを通す======================
@@ -248,6 +248,8 @@ alias m='make'
 alias kachi='make'
 
 alias ssh='ssh -A'
+
+alias d='docker'
 
 # カレントディレクトリ配下階層1のフォルダそれぞれのファイル数カウント
 alias countfile='for i in `find .  -maxdepth 1  -type d `; do echo "`find ${i} -type f | wc -l`\t${i}"; done'
