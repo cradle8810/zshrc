@@ -136,7 +136,9 @@ if [ ! "$ALREADYPATHLOADED" ]; then
     export ALREADYPATHLOADED=1
 
     # For Golang
-    if [ -d "${HOME}/go" ]; then
+    if [ -d "/Volumes/golang" ]; then
+       export GOPATH="/Volumes/golang"
+    else
        export GOPATH="${HOME}/go"
     fi
 
@@ -178,7 +180,6 @@ if [ "${OS}" = 'Darwin' ]; then
     alias finder='open -a Finder'
     alias secretmode='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --incognito'
 fi
-
 
 #gccはclangに
 alias gcc='clang'
