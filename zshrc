@@ -181,6 +181,9 @@ if [ "${OS}" = 'Darwin' ]; then
     alias secretmode='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --incognito'
 fi
 
+# Twitterをダウンロードする場合のwget時はuser-agentに'bot'の文字列が必要
+alias wget="wget --user-agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36 as bot' "
+
 #gccはclangに
 alias gcc='clang'
 alias g++='clang++'
