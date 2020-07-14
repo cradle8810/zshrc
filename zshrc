@@ -1,5 +1,5 @@
-export LANG='ja_JP.UTF-8'
-export LC_ALL="ja_JP.UTF-8"
+export LANG='C'
+export LC_ALL="C"
 
 if [ -f /usr/bin/uname ]; then
     OS=$(/usr/bin/uname)
@@ -183,6 +183,7 @@ fi
 
 # Twitterをダウンロードする場合のwget時はuser-agentに'bot'の文字列が必要
 alias wget="wget --user-agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36 as bot' "
+alias g="wget -nv --user-agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36 as bot' "
 
 #gccはclangに
 alias gcc='clang'
@@ -210,7 +211,6 @@ alias df='df -lh'
 alias du='du -h'
 #alias ps='ps aux'
 alias dh='echo dh-\>du; du'
-alias g='wget -nv'
 
 #ファイル操作（確認を取る・処理を表示）
 alias rm='rm -i'
