@@ -17,6 +17,9 @@ if [ -f ~/.proxy-company ]; then
    source ~/.proxy-company
 fi
 
+# GPG
+export GPG_TTY=$(tty)
+
 #############################
 # プロンプト設定
 #############################
