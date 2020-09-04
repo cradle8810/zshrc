@@ -124,11 +124,11 @@ zstyle ':completion:*' use-cache yes
 zstyle ':completion:*' cache-path ~/.cache_zsh
 
 #追加のfpath
-if [ -f ~/.zcompletion ]; then
+if [ -d ~/.zcompletion ]; then
     export fpath=(~/.zcompletion $fpath)
 fi
-if [ "${OS}" = 'Darwin' ] && [ -d /usr/local/share/zsh-completions ]; then
-    fpath=(/usr/local/share/zsh-completions $fpath)
+if [ "${OS}" = 'Darwin' ] && [ -d /usr/local/share/zsh/site-functions/ ]; then
+    fpath=(/usr/local/share/zsh/site-functions $fpath)
 fi
 
 autoload -Uz compinit && compinit -i
