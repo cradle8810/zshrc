@@ -3,11 +3,6 @@ name: buildDockerImage
 
 on:
   push:
-    branches:
-      - !master
-  merge:
-    branches:
-      - master
 
 jobs:
   build:
