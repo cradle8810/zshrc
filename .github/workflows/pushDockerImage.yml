@@ -7,12 +7,26 @@ on:
       - master
 
 jobs:
+  build-master:
+    runs-on: ubuntu-latest
+    container: docker/docker
+    needs: lint
+    steps:
+      - name: checkout Repository
+        uses: actions/checkout@v2
+
+      - name: docker image build
+        run:
+          docker build -t \
+          docker.pkg.github.com/cradle8810/zshrc/centos_zsh:8 \
+          centos_zsh_image/Dockerfile
+
   push:
     runs-on: ubuntu-latest
     container: docker/docker
     needs:
       - lint
-      - build
+      - build-master
     steps:
       - name: login
         run: |
