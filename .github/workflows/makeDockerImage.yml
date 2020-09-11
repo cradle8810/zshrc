@@ -11,7 +11,7 @@ jobs:
     container: hadolint/hadolint
     steps:
       - name: checkout Repository
-      - uses: actions/checkout@v2
+        uses: actions/checkout@v2
 
       - name: lint Dockerfile
         run: |
@@ -21,6 +21,9 @@ jobs:
     runs-on: ubuntu-latest
     container: docker/docker
     steps:
+      - name: checkout Repository
+        uses: actions/checkout@v2
+
       - name: docker image build
         run:
           docker build -t \
