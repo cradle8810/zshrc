@@ -1,0 +1,14 @@
+---
+name: lint
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    container: hadolint/hadolint
+    steps:
+      - name: checkout Repository
+        uses: actions/checkout@v2
+
+      - name: lint Dockerfile
+        run: |
+          hadolint centos_zsh_image/Dockerfile
