@@ -23,12 +23,3 @@ jobs:
           docker build -t \
           docker.pkg.github.com/cradle8810/zshrc/centos_zsh:8 \
           centos_zsh_image/Dockerfile
-
-      - name: login
-        run: |
-            /bin/echo -n {{ secrets.DOCKER_TOKEN }} | \
-            docker login -u {{ secrets.DOCKER_USERNAME }} --password-stdin
-
-      - name: push
-        run: |
-          docker push docker.pkg.github.com/cradle8810/zshrc/centos_zsh:8
