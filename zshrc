@@ -20,6 +20,9 @@ fi
 # GPG
 export GPG_TTY=$(tty)
 
+# goss
+export GOSS_USE_ALPHA=1
+
 #############################
 # プロンプト設定
 #############################
