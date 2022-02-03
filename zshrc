@@ -23,6 +23,10 @@ export GPG_TTY=$(tty)
 # goss
 export GOSS_USE_ALPHA=1
 
+# k8s
+source <(kubectl completion zsh)
+alias k='kubectl'
+
 #############################
 # プロンプト設定
 #############################
@@ -277,3 +281,4 @@ unsetopt promptcr
 
 #起動時に日付を表示
 date
+
