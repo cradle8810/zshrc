@@ -191,8 +191,9 @@ if [ "${OS}" = 'Darwin' ]; then
 fi
 
 # Twitterをダウンロードする場合のwget時はuser-agentに'bot'の文字列が必要
-alias wget="wget --user-agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36 as bot' "
-alias g="wget -nv --user-agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36 as bot' "
+UA='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.74 Safari/537.36 as bot'
+alias wget="wget --user-agent='${UA}'"
+alias g="wget --user-agent='${UA}'"
 
 #gccはclangに
 alias gcc='clang'
