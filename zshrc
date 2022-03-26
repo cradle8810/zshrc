@@ -101,26 +101,29 @@ setopt HIST_SAVE_NO_DUPS
 setopt HIST_VERIFY
 
 # 補完==========================
-#completion:function:completer:command:argum ent:tag.
+#completion:function:completer:command:argument:tag.
 
-#Case insencitive
+#大文字小文字の区別をしない
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
-#zstyle ':completion:*' auto-description 'specify: %d'
 zstyle ':completion:*:default' completer _complete _expand
-zstyle ':completion:*' format 'Completing %d'
-zstyle ':completion:*' group-name ''
+
+#補完しているグループを太字で表示する(%d)
+zstyle ':completion:*' format '%B%d:%b'
+
 zstyle ':completion:*:default' menu select=2
+
+#ls(1)時の表示はLS_COLORS変数の設定に任せる
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:*' list-colors ''
+
 zstyle ':completion:*' menu select=long
 zstyle ':completion:*' use-compctl false
-zstyle ':completion:*' verbose false
 
+## 各種コマンド用
+# ssh(1)時はhosts(5)を補完対象にする
 zstyle ':completion:*:ssh:*' hosts
-
-#一部の拡張子は補完しない
-zstyle ':completion:*:*files' ignored-patterns '*?.o' '*?~' '*\#'
+# ssh(1)時は一部ユーザネームを対象外にする
+zstyle ':completion:*:ssh:*:users' ignored-patterns '_*' 'daemon' 'Guest' 'nobody'
 
 #コマンドにキャッシュを使用
 zstyle ':completion:*' use-cache yes
@@ -281,4 +284,3 @@ alias k='kubectl'
 
 #起動時に日付を表示
 date
-
