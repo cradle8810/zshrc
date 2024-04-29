@@ -190,7 +190,7 @@ if [ "${OS}" = 'Darwin' ]; then
     alias secretmode='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --incognito'
 fi
 
-alias yt-dlp-s="yt-dlp -f 'bv*[vcodec^=avc]+ba[ext=m4a]/b[ext=mp4]/b' -o '%(title)s'"
+alias yt-dlp-s="yt-dlp --use-postprocessor FixupMtime -f 'bv*[vcodec^=avc]+ba[ext=m4a]/b[ext=mp4]/b' -o '%(title)s'"
 
 #gccはclangに
 alias gcc='clang'
