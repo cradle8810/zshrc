@@ -2,7 +2,7 @@ export LANG='en_US.UTF-8'
 export LC_ALL="en_US.UTF-8"
 
 if [ -f /usr/bin/uname ]; then
-    OS=$(/usr/bin/uname)
+  OS=$(/usr/bin/uname)
 fi
 
 #Ctrl-Dを10回押すまでログアウトしない
@@ -14,7 +14,7 @@ XAUTHORITY=~/.Xauthority
 
 #Proxy
 if [ -f ~/.proxy-company ]; then
-   source ~/.proxy-company
+  source ~/.proxy-company
 fi
 
 # GPG
@@ -36,8 +36,8 @@ if [ ! -f ~/.promptcolor ]; then
 
     for i in {1.."${HOSTNAMELEN}"};
     do
-	digit=$(printf "%d\n" "'${HOST[$i]}")
-	HOSTNAMESUM=$(( HOSTNAMESUM + digit ))
+	    digit=$(printf "%d\n" "'${HOST[$i]}")
+	    HOSTNAMESUM=$(( HOSTNAMESUM + digit ))
     done
 
     HOSTCOLOR=$(( HOSTNAMESUM % 8 ))
@@ -46,13 +46,13 @@ if [ ! -f ~/.promptcolor ]; then
     if [ ${HOSTCOLOR} -eq 0 \
 		      -o ${HOSTCOLOR} -eq 1 \
 		      -o ${HOSTCOLOR} -eq 7 ]; then
-	HOSTCOLOR=3
+	    HOSTCOLOR=3
     fi
 
     echo "${HOSTCOLOR}" > ~/.promptcolor
 
 else
-    HOSTCOLOR=$(cat ~/.promptcolor)
+  HOSTCOLOR=$(cat ~/.promptcolor)
 fi
 
 HOSTPROMPT="%F{${HOSTCOLOR}}${HOST}%f"		#ホスト名表示(緑)
@@ -153,7 +153,7 @@ if [ ! "$ALREADYPATHLOADED" ]; then
 
     #Mac用
     if [ "${OS}" = 'Darwin' ]; then
-	export PATH=/opt/ImageMagick/bin:$PATH
+	    export PATH=/opt/ImageMagick/bin:$PATH
     fi
 
     #Golang go/bin
