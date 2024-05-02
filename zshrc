@@ -278,8 +278,10 @@ setopt no_multios
 unsetopt promptcr
 
 # k8s (ここに置かないとkubectlを発見できず動かない)
-source <(/usr/local/bin/kubectl completion zsh)
-alias k='kubectl'
+if [ -f /usr/local/bin/kubectl ]; then
+ source <(/usr/local/bin/kubectl completion zsh)
+ alias k='kubectl'
+fi
 
 #起動時に日付を表示
 date
