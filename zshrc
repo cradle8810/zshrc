@@ -190,7 +190,7 @@ if [ "${OS}" = 'Darwin' ]; then
     alias secretmode='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --incognito'
 fi
 
-alias yt-dlp-s="yt-dlp --use-postprocessor FixupMtime:mtime_key=release_date -f 'bv*[vcodec^=avc]+ba[ext=m4a]/b[ext=mp4]/b' -o '%(title)s'"
+alias yt-dlp-s="yt-dlp --use-postprocessor FixupMtime -f 'bv*[vcodec^=avc]+ba[ext=m4a]/b[ext=mp4]/b' -o '%(title)s'"
 alias g='wget'
 
 #gccはclangに
@@ -285,9 +285,3 @@ fi
 
 #起動時に日付を表示
 date
-
-PATH="/Users/hayato/perl5/bin${PATH:+:${PATH}}"; export PATH;
-PERL5LIB="/Users/hayato/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
-PERL_LOCAL_LIB_ROOT="/Users/hayato/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
-PERL_MB_OPT="--install_base \"/Users/hayato/perl5\""; export PERL_MB_OPT;
-PERL_MM_OPT="INSTALL_BASE=/Users/hayato/perl5"; export PERL_MM_OPT;
