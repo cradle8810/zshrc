@@ -161,8 +161,8 @@ if [ ! "$ALREADYPATHLOADED" ]; then
        export PATH=$GOPATH:$PATH
     fi
 
-    export PATH=/opt/homebrew/bin/:/opt/bin:/opt/sbin:/usr/local/bin:/usr/local/sbin:$PATH
-    export MANPATH=/usr/local/man:/usr/share/man:$MANPATH
+    export PATH=$PATH:/opt/homebrew/bin/:/opt/bin:/opt/sbin:/usr/local/bin:/usr/local/sbin
+    export MANPATH=$MANPATH:/usr/local/man:/usr/share/man
 fi
 #===================================
 
