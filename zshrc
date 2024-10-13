@@ -191,7 +191,8 @@ if [ "${OS}" = 'Darwin' ]; then
 fi
 
 alias yt-dlp-s="yt-dlp --use-postprocessor FixupMtime -f 'bv*[vcodec^=avc]+ba[ext=m4a]/b[ext=mp4]/b' -o '%(title)s'"
-alias g='wget'
+alias wget='wget --timestamping'
+alias g='wget --timestamping'
 
 #gccはclangに
 alias gcc='clang'
