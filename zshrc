@@ -190,7 +190,7 @@ if [ "${OS}" = 'Darwin' ]; then
     alias secretmode='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --incognito'
 fi
 
-alias yt-dlp-s="yt-dlp --use-postprocessor FixupMtime -f 'bv*[vcodec^=avc]+ba[ext=m4a]/b[ext=mp4]/b' -o '%(title)s'"
+alias yt-dlp-s="yt-dlp --use-postprocessor FixupMtime:mtime_key=upload_date -f 'bv*[vcodec^=avc]+ba[ext=m4a]/b[ext=mp4]/b' -o '%(title)s'"
 alias wget='wget --timestamping'
 alias g='wget --timestamping'
 
@@ -286,3 +286,8 @@ fi
 
 #起動時に日付を表示
 date
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=(/Users/hayato/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
+# End of Docker CLI completions
