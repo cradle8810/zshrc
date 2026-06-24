@@ -262,6 +262,7 @@ alias kachi='make'
 
 alias ssh='ssh -A'
 
+alias k='kubectl'
 # Add Docker comletion file on $fpath using this command...
 # sudo curl -O 'https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker'
 alias d='docker'
