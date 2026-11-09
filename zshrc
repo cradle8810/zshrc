@@ -55,12 +55,29 @@ else
   HOSTCOLOR=$(cat ~/.promptcolor)
 fi
 
-HOSTPROMPT="%F{${HOSTCOLOR}}${HOST}%f"		#ホスト名表示(緑)
-CDIRPROMPT="[%3~]"	#カレントディレクトリと、すぐ下のパスを表示
-ERRPROMPT="%F{red}%?%f"		#エラー時にはエラーコードを表示(赤)
-PROMPTHEADER="%(?,${HOSTPROMPT},${ERRPROMPT})"
+# PROMPT
+HOSTPROMPT="%F{${HOSTCOLOR}}${HOST}%f"
+CDIRPROMPT="[%3~]"
 
+# 直前のコマンドの終了ステータスに応じて表示文字列を生成
+set_prompt_exit_code() {
+  local exit_code=$?
+  if [ $exit_code -eq 0 ]; then
+    PS_EXIT_STATUS="(0)"
+  else
+    PS_EXIT_STATUS="%F{red}(${exit_code})%f"
+  fi
+}
+
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd set_prompt_exit_code
+
+# プロンプト展開時に $PS_EXIT_STATUS を変数展開させるためPROMPT_SUBSTを有効化
+setopt PROMPT_SUBST
+
+PROMPTHEADER='${HOSTPROMPT}${PS_EXIT_STATUS}'
 PROMPT="${PROMPTHEADER}${CDIRPROMPT}%# "
+
 SPROMPT="%r is correct? [n,y,a,e]: "
 
 #Colors
@@ -287,8 +304,9 @@ fi
 
 #起動時に日付を表示
 date
+export PATH="/opt/homebrew/sbin:$PATH"
 # The following lines have been added by Docker Desktop to enable Docker CLI completions.
 fpath=(/Users/hayato/.docker/completions $fpath)
 autoload -Uz compinit
-compinit
+(( ${+_comps[docker]} )) || compinit
 # End of Docker CLI completions
