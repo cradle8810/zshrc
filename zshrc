@@ -1,8 +1,51 @@
 export LANG='en_US.UTF-8'
-export LC_ALL="en_US.UTF-8"
+export LC_ALL='en_US.UTF-8'
+export GPG_TTY=$(tty)
+export GOSS_USE_ALPHA=1
+export XAUTHORITY="${HOME}/.Xauthority"
 
-if [ -f /usr/bin/uname ]; then
-  OS=$(/usr/bin/uname)
+# OS判定
+case "$OSTYPE" in
+  darwin*) OS='Darwin' ;;
+  linux*)  OS='Linux'  ;;
+  *)       OS=$(uname -s 2>/dev/null) ;;
+esac
+
+#############################
+# パス・fpath設定
+#############################
+typeset -U path fpath
+
+# Go関連パス
+if [ -d "/Volumes/golang" ]; then
+  export GOPATH="/Volumes/golang"
+else
+  export GOPATH="${HOME}/go"
+fi
+
+path=(
+  /opt/homebrew/bin
+  /opt/homebrew/sbin
+  /usr/local/bin
+  /usr/local/sbin
+  /opt/bin
+  /opt/sbin
+  ${GOPATH}/bin
+  $path
+)
+
+if [ "${OS}" = 'Darwin' ]; then
+  path=(/opt/ImageMagick/bin $path)
+fi
+
+export PATH
+export MANPATH="${MANPATH:-}:/usr/local/man:/usr/share/man"
+
+# 補完関数の読み込みパス
+[[ -d "${HOME}/.zcompletion" ]] && fpath=("${HOME}/.zcompletion" $fpath)
+[[ -d "${HOME}/.docker/completions" ]] && fpath=("${HOME}/.docker/completions" $fpath)
+if [ "${OS}" = 'Darwin' ] && [ -d /usr/local/share/zsh/site-functions ]; then
+  fpath=(/usr/local/share/zsh/site-functions $fpath)
 fi
 
 #Ctrl-Dを10回押すまでログアウトしない
@@ -117,6 +160,13 @@ setopt HIST_FIND_NO_DUPS
 setopt HIST_SAVE_NO_DUPS
 setopt HIST_VERIFY
 
+# ファイル作成時のパーミッション
+umask 022
+setopt no_beep
+setopt numeric_glob_sort
+setopt no_multios
+unsetopt promptcr
+
 # 補完==========================
 #completion:function:completer:command:argument:tag.
 
@@ -157,74 +207,40 @@ fi
 autoload -Uz compinit
 compinit -C
 
-#====パスを通す======================
-if [ ! "$ALREADYPATHLOADED" ]; then
-    export ALREADYPATHLOADED=1
-
-    # For Golang
-    if [ -d "/Volumes/golang" ]; then
-       export GOPATH="/Volumes/golang"
-    else
-       export GOPATH="${HOME}/go"
-    fi
-
-    #Mac用
-    if [ "${OS}" = 'Darwin' ]; then
-	    export PATH=/opt/ImageMagick/bin:$PATH
-    fi
-
-    #Golang go/bin
-    if [ -n "${GOPATH}" ]; then
-       export PATH=$GOPATH:$PATH
-    fi
-
-    export PATH=/opt/homebrew/bin/:/opt/bin:/opt/sbin:/usr/local/bin:/usr/local/sbin:$PATH
-    export MANPATH=$MANPATH:/usr/local/man:/usr/share/man
-fi
-#===================================
-
-#====エイリアス =========================
-setopt complete_aliases
-
-#Mac関連
-if [ "${OS}" = 'Darwin' ]; then
-
-    alias preview='open -a Preview'
-    alias ql='qlmanage -p "$@" >& /dev/null'
-    alias diskio='sudo fs_usage -e -w -f diskio'
-    alias keyadd='eval `ssh-agent` & ssh-add'
-
-    alias afsctool-c='afsctool -c -9'
-    alias flushdns='sudo killall -HUP mDNSResponder'
-
-    alias emacs='/Applications/Emacs.app/Contents/MacOS/Emacs -nw'
-
-    #メモリ(Macはvm_stat)
-    alias free="echo '\nUse vm_stat\n' && vm_stat"
-    alias kaihou='du -sx / &> /dev/null & sleep 18 && kill $!'
-
-    alias finder='open -a Finder'
-    alias secretmode='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --incognito'
+#############################
+# エイリアス
+#############################
+# OS別 ls
+if [ "${OS}" = 'Linux' ]; then
+  alias ls='ls --color=auto'
+else
+  alias ls='ls -GF'
 fi
 
-alias yt-dlp-s="yt-dlp --use-postprocessor FixupMtime:mtime_key=upload_date -f 'bv*[vcodec^=avc]+ba[ext=m4a]/b[ext=mp4]/b' -o '%(title)s'"
-alias wget='wget --timestamping'
-alias g='wget --timestamping'
+# 基本エイリアス
+alias ll='ls -lh'
+alias la='ls -A'
+alias l='ls'
+alias s='ls'
+alias sl='ls'
+alias ks='ls'
+alias os='ls'
+alias ,s='ls'
+alias lks='ls'
+alias kls='ls'
+alias lt='ls -lt'
+alias ltr='ls -ltrh'
+alias lrt='ls -ltrh'
+alias lsr='ls -lSrh'
+alias t='tree'
 
-#gccはclangに
-alias gcc='clang'
-alias g++='clang++'
-alias gdb='lldb'
+alias rm='rm -i'
+alias mv='mv -v'
+alias cp='cp -v'
 
-#日付をシェルに出す
-# today -> yymmdd
-# zikan -> hhmm
-# ima -> yyyymmdd_hhmm
-alias today='sh -c "echo `date +%y%m%d`"'
-alias zikan='sh -c "echo `date +%H%M`"'
-alias ima='sh -c "echo `date +%Y%m%d_%H%M`"'
-
-alias sc='sort|uniq -c|sort'
+alias df='df -lh'
+alias du='du -h'
+alias dh='echo "dh -> du"; du'
 
 alias e='emacs'
 alias v='vim'
@@ -232,81 +248,53 @@ alias f='find'
 alias grep='grep --line-buffered -i'
 alias ngrep='grep -n -i --line-buffered --color=always'
 alias less='less -R'
+alias sc='sort | uniq -c | sort'
 
-alias df='df -lh'
-alias du='du -h'
-#alias ps='ps aux'
-alias dh='echo dh-\>du; du'
-
-#ファイル操作（確認を取る・処理を表示）
-alias rm='rm -i'
-alias mv='mv -v'
-alias cp='cp -v'
-
-#ls関係(ksとかやっちゃったとき用)
-
-#lsの色付けオプションをOSごとに切り替え
-if [ 'Linux' = "$OS" ]; then
-  alias ls='ls --color'
-else
-  alias ls='ls -GF'
-fi
-
-alias ks='ls'
-alias os='ls'
-alias ,s='ls'
-alias la='ls -A'
-alias ka='ls'
-alias lks='ls'
-alias kls='ls'
-alias sl='ls'
-alias ll='ls -lh'
-alias l='ls'
-alias s='ls'
-alias lt='ls -lt'
-alias ltr='ls -ltrh'
-alias lrt='ls -ltrh'
-alias lsr='ls -lSrh'
-
-alias t='tree'
-
-#プログラミング関連
 alias a='./a.out'
-alias javac='javac -encoding utf-8'
-alias j='javac -encoding utf-8'
 alias m='make'
 alias kachi='make'
+alias javac='javac -encoding utf-8'
+alias j='javac -encoding utf-8'
 
+alias gcc='clang'
+alias g++='clang++'
+alias gdb='lldb'
 alias ssh='ssh -A'
-
-alias k='kubectl'
-# Add Docker comletion file on $fpath using this command...
-# sudo curl -O 'https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker'
 alias d='docker'
+alias wget='wget --timestamping'
+alias g='wget --timestamping'
 
-# カレントディレクトリ配下階層1のフォルダそれぞれのファイル数カウント
-alias countfile='for i in `find .  -maxdepth 1  -type d `; do echo "`find ${i} -type f | wc -l`\t${i}"; done'
+alias yt-dlp-s="yt-dlp --use-postprocessor FixupMtime:mtime_key=upload_date -f 'bv*[vcodec^=avc]+ba[ext=m4a]/b[ext=mp4]/b' -o '%(title)s'"
 
-#======================================
+# 日付出力 (サブシェルの重複を省き、dateコマンド直呼び出しに変更)
+alias today='date +%y%m%d'
+alias zikan='date +%H%M'
+alias ima='date +%Y%m%d_%H%M'
 
-# ファイル作成時のパーミッション
-umask 022
-setopt no_beep
-setopt numeric_glob_sort
-setopt no_multios
-unsetopt promptcr
+# ディレクトリ直下のファイル数カウント
+alias countfile='find . -maxdepth 1 -type d -print0 | while IFS= read -r -d "" d; do printf "%s\t%s\n" "$(find "$d" -type f | wc -l)" "$d"; done'
 
-# k8s (ここに置かないとkubectlを発見できず動かない)
-if [ -f /usr/local/bin/kubectl ]; then
- source <(/usr/local/bin/kubectl completion zsh)
- alias k='kubectl'
+# macOS 固有のエイリアス
+if [ "${OS}" = 'Darwin' ]; then
+  alias preview='open -a Preview'
+  alias ql='qlmanage -p "$@" >& /dev/null'
+  alias diskio='sudo fs_usage -e -w -f diskio'
+  alias keyadd='eval "$(ssh-agent)" && ssh-add'
+  alias flushdns='sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder'
+  alias emacs='/Applications/Emacs.app/Contents/MacOS/Emacs -nw'
+  alias free='printf "\nUse vm_stat\n\n" && vm_stat'
+  alias kaihou='du -sx / &> /dev/null & sleep 18 && kill $!'
+  alias finder='open -a Finder'
+  alias secretmode='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --incognito'
 fi
 
-#起動時に日付を表示
+#############################
+# CLI ツールの補完設定
+#############################
+if (( $+commands[kubectl] )); then
+  source <(kubectl completion zsh)
+  alias k='kubectl'
+fi
+
+# 起動確認
 date
-export PATH="/opt/homebrew/sbin:$PATH"
-# The following lines have been added by Docker Desktop to enable Docker CLI completions.
-fpath=(/Users/hayato/.docker/completions $fpath)
-autoload -Uz compinit
-(( ${+_comps[docker]} )) || compinit
-# End of Docker CLI completions
