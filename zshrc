@@ -264,7 +264,7 @@ alias d='docker'
 alias wget='wget --timestamping'
 alias g='wget --timestamping'
 
-alias yt-dlp-s="yt-dlp --use-postprocessor FixupMtime:mtime_key=upload_date -f 'bv*[vcodec^=avc]+ba[ext=m4a]/b[ext=mp4]/b' -o '%(title)s'"
+alias yt-dlp-s="yt-dlp  --cookies-from-browser firefox+gnomekeyring --js-runtimes deno://home/hayato/.deno/bin/deno --remote-components ejs:github --live-from-start -R infinite --fragment-retries infinite  --file-access-retries infinite --wait-for-video 100 --use-postprocessor FixupMtime:mtime_key=upload_date -f 'bv*[vcodec^=avc]+ba[ext=m4a]/b[ext=mp4]/b' -o '%(title)s'"
 
 # 日付出力 (サブシェルの重複を省き、dateコマンド直呼び出しに変更)
 alias today='date +%y%m%d'
