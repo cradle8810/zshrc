@@ -24,12 +24,12 @@ else
 fi
 
 path=(
+  /opt/bin
+  /opt/sbin
   /opt/homebrew/bin
   /opt/homebrew/sbin
   /usr/local/bin
   /usr/local/sbin
-  /opt/bin
-  /opt/sbin
   ${GOPATH}/bin
   $path
 )
