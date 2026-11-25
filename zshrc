@@ -267,7 +267,7 @@ alias g='wget --timestamping'
 alias yt-dlp-s="yt-dlp --cookies-from-browser firefox+gnomekeyring \
   --js-runtimes deno://home/hayato/.deno/bin/deno --remote-components ejs:github \
   --live-from-start -R infinite --fragment-retries infinite --file-access-retries infinite --wait-for-video 100 \
-  --embed-thumbnail --embed-metadata --add-metadata --embed-info-json --embed-subs \
+  --embed-thumbnail --embed-metadata --add-metadata --embed-info-json --embed-subs --embed-chapters \
   --use-postprocessor FixupMtime:mtime_key=upload_date -f 'bv*[vcodec^=avc]+ba[ext=m4a]/b[ext=mp4]/b' \
   -o '%(title)s'"
 
