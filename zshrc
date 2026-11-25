@@ -268,8 +268,11 @@ alias yt-dlp-s="yt-dlp --cookies-from-browser firefox+gnomekeyring \
   --js-runtimes deno://home/hayato/.deno/bin/deno --remote-components ejs:github \
   --live-from-start -R infinite --fragment-retries infinite --file-access-retries infinite --wait-for-video 100 \
   --embed-thumbnail --embed-metadata --add-metadata --embed-info-json --embed-subs --embed-chapters \
-  --use-postprocessor FixupMtime:mtime_key=upload_date -f 'bv*[vcodec^=avc]+ba[ext=m4a]/b[ext=mp4]/b' \
-  -o '%(title)s'"
+  --use-postprocessor FixupMtime:mtime_key=upload_date \
+  --audio-multistreams \
+  -f 'bv*[vcodec^=avc]+mergeall[vcodec=none][ext=m4a]/bv*[vcodec^=avc]+mergeall[vcodec=none]/b[ext=mp4]/b' \
+  --windows-filenames --trim-filenames 150 \
+  -o '%(title).150B'"
 
 # 日付出力 (サブシェルの重複を省き、dateコマンド直呼び出しに変更)
 alias today='date +%y%m%d'
